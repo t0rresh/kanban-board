@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kanban - Gestión de Tareas</title>
+    <link href="CSS/bootstrap.min.css" rel="stylesheet">
+    <link href="CSS/style.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+            <h2 class="text-center my-4">Gestión de Tareas - Kanban</h2>
+        </div>
+
+        <!-- CONTROLES TAREAS ----------->
+        <div class="mb-3 d-flex gap-2">
+            <input type="text" class="form-control" id="task_input" placeholder="Título de tarea...">
+            <button class="btn btn-primary" onclick="new_task()">Agregar</button>
+            <button class="btn btn-info" onclick="open_history_modal()">Ver Historial</button>
+        </div>
+
+        <!-- TABLERO KANBAN ------------->
+        <div class="bulletin d-flex justify-content-around">
+            <div class="column border p-3" id="pendiente" ondrop="drop(event)" ondragover="allowDrop(event)">
+                <h3 class="text-center">Pendiente</h3>
+            </div>
+            <div class="column border p-3" id="proceso" ondrop="drop(event)" ondragover="allowDrop(event)">
+                <h3 class="text-center">En Proceso</h3>
+            </div>
+            <div class="column border p-3" id="terminado" ondrop="drop(event)" ondragover="allowDrop(event)">
+                <h3 class="text-center">Completado</h3>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL EDITAR ----------------->
+    <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editModalLabel">Editar Tarea</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                </div>
+                <div class="modal-body">
+                    <!-- FECHA ENTREGA --------->
+                    <div class="mb-3">
+                        <label for="edit_due_date" class="form-label">Fecha de Entrega</label>
+                        <input type="date" class="form-control" id="edit_due_date">
+                    </div>
+
+                    <!-- SUBTAREAS ------------->
+                    <div class="mb-3">
+                        <label for="edit_subtasks" class="form-label">Subtareas</label>
+                        <input type="text" class="form-control" id="new_subtask_input" placeholder="Agregar subtarea...">
+                        <button class="btn btn-secondary mt-2" onclick="add_modal_subtask()">Añadir Subtarea</button>
+                        <ul class="list-group mt-2" id="edit_subtasks_list"></ul>
+                    </div>
+
+                    <!-- PROYECTO TAREA -------->
+                    <div class="mb-3">
+                        <label for="project_select" class="form-label">Proyecto</label>
+                        <div class="d-flex gap-2">
+                            <select class="form-select" id="project_select"></select>
+                            <button class="btn btn-success" onclick="add_project()">Añadir Proyecto</button>
+                        </div>
+                    </div>
+                </div>
+                <!-- BOTONES MODAL ---------->
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                    <button type="button" class="btn btn-primary" onclick="save_modal_changes()">Guardar Cambios</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL HISTORIAL -------------->
+    <div class="modal fade" id="historyModal" tabindex="-1" aria-labelledby="historyModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="historyModalLabel">Historial de Movimientos</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                </div>
+                <div class="modal-body">
+                    <ul class="list-group" id="history_list"></ul>
+                </div>
+                <!-- BOTONES HISTORIAL ------->
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SCRIPTS --------------------->
+    <script src="js/bootstrap.bundle.min.js"></script>
+    <script src="js/tasks.js"></script>
+</body>
+</html>
